@@ -1,0 +1,44 @@
+{
+    "list": [
+        {
+            "id": 1,
+            "datetime": 1487346275714,
+            "IamStatus": {
+                "countUsers": 13,
+                "countGroups": 11,
+                "countRoles": 27,
+                "name": "IamStatus"
+            }
+        },
+        {
+            "id": 2,
+            "datetime": 1487432675714,
+            "IamStatus": {
+                "countUsers": 14,
+                "countGroups": 11,
+                "countRoles": 27,
+                "name": "IamStatus"
+            }
+        },
+        {
+            "id": 3,
+            "datetime": 1487519075714,
+            "IamStatus": {
+                "countUsers": 14,
+                "countGroups": 11,
+                "countRoles": 27,
+                "name": "IamStatus"
+            }
+        },
+        {
+            "id": 4,
+            "datetime": 1487605475714,
+            "IamStatus": {
+                "countUsers": 18,
+                "countGroups": 15,
+                "countRoles": 27,
+                "name": "IamStatus"
+            }
+        }
+    ]
+}
