@@ -1,16 +1,19 @@
 (function() {
     var rowsMap = {};
+    var urlsMap = {
+        'awsIam': '/json/aws/iam/timeline.json'
+    };
 
     function run() {
         google.charts.load('current', {packages: ['corechart', 'line']});
-        loadIamStatus();
+        fetchTimeline(urlsMap.awsIam);
         window.addEventListener("resize", function(){
             drawIamStatusGraph();
         }, false);
     }
 
-    function loadIamStatus() {
-        fetch('/json/aws/iam/timeline.json')
+    function fetchTimeline(url) {
+        fetch(url)
         .then(function(response) {
             return response.json()
         }).then(function(json) {
