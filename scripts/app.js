@@ -1,7 +1,10 @@
 (function() {
-    var rowsMap = {};
+    var services = ['awsIam'];
     var urlsMap = {
         'awsIam': '/json/aws/iam/timeline.json'
+    };
+    var graphSelectorsMap = {
+        'awsIam': 'iamStatusChart'
     };
     var parseRulesMap = {
         'awsIam': {
@@ -9,24 +12,32 @@
             'dataNames': ['countUsers', 'countGroups', 'countRoles']
         }
     };
+    var rowsMap = {};
 
     function run() {
         google.charts.load('current', {packages: ['corechart', 'line']});
-        fetchTimeline('awsIam');
+        fetchTimelineAll(services);
         window.addEventListener("resize", function(){
-            drawIamStatusGraph();
+            drawTimelineGraphAll(services);
         }, false);
     }
 
-    function fetchTimeline(service) {
+    function fetchTimelineAll(services) {
+        for (var i=0; i<services.length; i++) {
+            var service = services[i];
+            fetchTimelineByServiceName(service);
+        }
+    }
+    function fetchTimelineByServiceName(service) {
         var url = urlsMap[service];
         fetch(url)
         .then(function(response) {
             return response.json()
         }).then(function(json) {
             console.log('parsed json', json)
-            rowsMap.iamStatusRows = parseJsonToRows(json, service);
-            google.charts.setOnLoadCallback(drawIamStatusGraph);
+            var rows = parseJsonToRows(json, service);
+            rowsMap[service] = rows;
+            google.charts.setOnLoadCallback(drawTimelineGraphByServiceName.bind(null, service));
         }).catch(function(ex) {
             console.log('parsing failed', ex)
         });
@@ -53,15 +64,24 @@
         return rows;
     }
 
-    function drawIamStatusGraph() {
+    function drawTimelineGraphAll(services) {
+        for (var i=0; i<services.length; i++) {
+            var service = services[i];
+            drawTimelineGraphByServiceName(service);
+        }
+    }
+
+    function drawTimelineGraphByServiceName(service) {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Time');
-        data.addColumn('number', 'countUsers');
-        data.addColumn('number', 'countGroups');
-        data.addColumn('number', 'countRoles');
-        data.addRows(rowsMap.iamStatusRows);
-        var iamStatusChart = document.getElementById('iamStatusChart');
-        var chart = new google.visualization.LineChart(iamStatusChart);
+        var dataNames = parseRulesMap[service]['dataNames'];
+        for (var i=0;i<dataNames.length;i++) {
+            var dataName = dataNames[i];
+            data.addColumn('number', dataName);
+        }
+        data.addRows(rowsMap[service]);
+        var chartElm = document.getElementById(graphSelectorsMap[service]);
+        var chart = new google.visualization.LineChart(chartElm);
         var options = {
             hAxis: {
                 title: 'Day'
