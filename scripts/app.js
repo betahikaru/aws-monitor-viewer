@@ -1,7 +1,7 @@
 // configure data
 var config = {
     'awsIam': {
-        'url': '../json/aws/iam/timeline.json',
+        'url': './json/aws/iam/timeline.json',
         'graphId': 'iamStatusChart',
         'parseRulesMap': {
             'statusName': 'IamStatus',
@@ -9,7 +9,7 @@ var config = {
         }
     },
     'awsEc2': {
-        'url': '../json/aws/ec2/timeline.json',
+        'url': './json/aws/ec2/timeline.json',
         'graphId': 'ec2StatusChart',
         'parseRulesMap': {
             'statusName': 'Ec2Status',
