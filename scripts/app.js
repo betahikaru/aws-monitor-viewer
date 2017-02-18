@@ -10,7 +10,7 @@ var config = {
     }
 };
 
-(function () {
+(function (config) {
     // application data
     var app = {
         services: [],
@@ -115,4 +115,4 @@ var config = {
 
     // run
     run();
-})();
+})(config);
