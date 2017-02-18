@@ -1,7 +1,7 @@
 // configure data
 var config = {
     'awsIam': {
-        'url': '/json/aws/iam/timeline.json',
+        'url': '../json/aws/iam/timeline.json',
         'graphId': 'iamStatusChart',
         'parseRulesMap': {
             'statusName': 'IamStatus',
@@ -9,7 +9,7 @@ var config = {
         }
     },
     'awsEc2': {
-        'url': '/json/aws/ec2/timeline.json',
+        'url': '../json/aws/ec2/timeline.json',
         'graphId': 'ec2StatusChart',
         'parseRulesMap': {
             'statusName': 'Ec2Status',
@@ -101,7 +101,8 @@ var config = {
             var dataName = dataNames[i];
             dataTable.addColumn('number', dataName);
         }
-        dataTable.addRows(app.dataStore[sName]['rowsMap']);
+        var rows = app.dataStore[sName]['rowsMap']
+        dataTable.addRows(rows);
         var chartElm = document.getElementById(config[sName]['graphId']);
         var chart = new google.visualization.LineChart(chartElm);
         var statusName = config[sName]['parseRulesMap']['statusName'];
