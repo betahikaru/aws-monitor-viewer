@@ -10,7 +10,7 @@ var config = {
     }
 };
 
-(function() {
+(function () {
     // application data
     var app = {
         services: [],
@@ -19,16 +19,16 @@ var config = {
 
     // initialize
     function run() {
-        google.charts.load('current', {packages: ['corechart', 'line']});
+        google.charts.load('current', { packages: ['corechart', 'line'] });
         initializeAppData();
         fetchTimelineAll();
-        window.addEventListener("resize", function(){
+        window.addEventListener("resize", function () {
             drawTimelineGraphAll();
         }, false);
     }
     function initializeAppData() {
         app.services = [];
-        for(var sName in config) {
+        for (var sName in config) {
             app.services.push(sName);
             app.dataStore[sName] = {};
         }
@@ -44,16 +44,16 @@ var config = {
     function fetchTimelineByServiceName(sName) {
         var url = config[sName]['url'];
         fetch(url)
-        .then(function(response) {
-            return response.json()
-        }).then(function(json) {
-            console.log('[INFO] Parsed json for service timeline', sName, json);
-            var rows = parseJsonToRows(json, sName);
-            app.dataStore[sName]['rowsMap'] = rows;
-            google.charts.setOnLoadCallback(drawTimelineGraphByServiceName.bind(null, sName));
-        }).catch(function(ex) {
-            console.log('[INFO] Parsing failed for service timeline', sName, ex);
-        });
+            .then(function (response) {
+                return response.json()
+            }).then(function (json) {
+                console.log('[INFO] Parsed json for service timeline', sName, json);
+                var rows = parseJsonToRows(json, sName);
+                app.dataStore[sName]['rowsMap'] = rows;
+                google.charts.setOnLoadCallback(drawTimelineGraphByServiceName.bind(null, sName));
+            }).catch(function (ex) {
+                console.log('[INFO] Parsing failed for service timeline', sName, ex);
+            });
     }
 
     // parse
@@ -62,13 +62,13 @@ var config = {
         if (json && json.list) {
             var list = json.list;
             var size = list.length;
-            for (var i=0;i<size;i++) {
+            for (var i = 0; i < size; i++) {
                 var data = list[i];
                 var statusName = config[sName]['parseRulesMap']['statusName'];
                 var dataNames = config[sName]['parseRulesMap']['dataNames'];
                 var status = data[statusName];
                 var row = [new Date(data.datetime)];
-                for (var j=0; j<dataNames.length; j++) {
+                for (var j = 0; j < dataNames.length; j++) {
                     var dataName = dataNames[j];
                     row.push(status[dataName]);
                 }
@@ -103,11 +103,11 @@ var config = {
             vAxis: {
                 title: 'IamStatus'
             },
-            chartArea:{
+            chartArea: {
                 left: 100,
                 top: 20,
-                width:'60%',
-                height:'80%'
+                width: '60%',
+                height: '80%'
             }
         };
         chart.draw(dataTable, options);
