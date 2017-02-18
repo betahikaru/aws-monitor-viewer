@@ -7,6 +7,14 @@ var config = {
             'statusName': 'IamStatus',
             'dataNames': ['countUsers', 'countGroups', 'countRoles']
         }
+    },
+    'awsEc2': {
+        'url': '/json/aws/iam/timeline-aws-ec2.json',
+        'graphId': 'ec2StatusChart',
+        'parseRulesMap': {
+            'statusName': 'Ec2Status',
+            'dataNames': ['countAll', 'countRunning']
+        }
     }
 };
 
@@ -96,12 +104,13 @@ var config = {
         dataTable.addRows(app.dataStore[sName]['rowsMap']);
         var chartElm = document.getElementById(config[sName]['graphId']);
         var chart = new google.visualization.LineChart(chartElm);
+        var statusName = config[sName]['parseRulesMap']['statusName'];
         var options = {
             hAxis: {
                 title: 'Day'
             },
             vAxis: {
-                title: 'IamStatus'
+                title: statusName
             },
             chartArea: {
                 left: 100,
