@@ -1,4 +1,5 @@
 (function() {
+    // configure
     var services = ['awsIam'];
     var urlsMap = {
         'awsIam': '/json/aws/iam/timeline.json'
@@ -14,6 +15,7 @@
     };
     var rowsMap = {};
 
+    // initialize
     function run() {
         google.charts.load('current', {packages: ['corechart', 'line']});
         fetchTimelineAll(services);
@@ -22,6 +24,7 @@
         }, false);
     }
 
+    // fetch
     function fetchTimelineAll(services) {
         for (var i=0; i<services.length; i++) {
             var service = services[i];
@@ -43,6 +46,7 @@
         });
     }
 
+    // parse
     function parseJsonToRows(json, service) {
         var rows = [];
         if (json && json.list) {
@@ -64,13 +68,13 @@
         return rows;
     }
 
+    // draw graph
     function drawTimelineGraphAll(services) {
         for (var i=0; i<services.length; i++) {
             var service = services[i];
             drawTimelineGraphByServiceName(service);
         }
     }
-
     function drawTimelineGraphByServiceName(service) {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Time');
@@ -99,6 +103,6 @@
         chart.draw(data, options);
     }
 
-    // Run
+    // run
     run();
 })();
